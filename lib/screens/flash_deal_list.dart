@@ -173,7 +173,7 @@ class _FlashDealListState extends State<FlashDealList> {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
                   return FlashDealProducts(
                     flash_deal_id: flashDealResponse.flash_deals[index].id,
-                    flash_deal_name: flashDealResponse.flash_deals[index].title,
+                   // flash_deal_name: flashDealResponse.flash_deals[index].title,
                   );
                 }));
               }

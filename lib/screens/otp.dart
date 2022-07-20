@@ -86,7 +86,7 @@ class _OtpState extends State<Otp> {
     return Directionality(
       textDirection: app_language_rtl.$ ? TextDirection.rtl : TextDirection.ltr,
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: MyTheme.Grey_third,
         body: Stack(
           children: [
             // Container(
@@ -103,8 +103,8 @@ class _OtpState extends State<Otp> {
                   Padding(
                     padding: const EdgeInsets.only(top: 40.0, bottom: 15),
                     child: Container(
-                      width: 75,
-                      height: 75,
+                      width: 185,
+                      height: 55, 
                       child: Image.asset(
                           'assets/login_registration_form_logo.png'),
                     ),
@@ -119,7 +119,7 @@ class _OtpState extends State<Otp> {
                               : AppLocalizations.of(context)
                                   .otp_screen_phone_number),
                       style: TextStyle(
-                          color: MyTheme.accent_color,
+                          color: MyTheme.white,
                           fontSize: 18,
                           fontWeight: FontWeight.w600),
                     ),
@@ -134,13 +134,13 @@ class _OtpState extends State<Otp> {
                                     .otp_screen_enter_verification_code_to_email,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    color: MyTheme.dark_grey, fontSize: 14))
+                                    color: MyTheme.white, fontSize: 14))
                             : Text(
                                 AppLocalizations.of(context)
                                     .otp_screen_enter_verification_code_to_phone,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    color: MyTheme.dark_grey, fontSize: 14))),
+                                    color: MyTheme.white, fontSize: 14))),
                   ),
                   Container(
                     width: _screen_width * (3 / 4),
@@ -178,7 +178,7 @@ class _OtpState extends State<Otp> {
                             child: FlatButton(
                               minWidth: MediaQuery.of(context).size.width,
                               //height: 50,
-                              color: MyTheme.accent_color,
+                              color: MyTheme.white,
                               shape: RoundedRectangleBorder(
                                   borderRadius: const BorderRadius.all(
                                       Radius.circular(12.0))),
@@ -208,7 +208,7 @@ class _OtpState extends State<Otp> {
                           AppLocalizations.of(context).otp_screen_resend_code,
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              color: MyTheme.accent_color,
+                              color: MyTheme.white,
                               decoration: TextDecoration.underline,
                               fontSize: 13)),
                     ),

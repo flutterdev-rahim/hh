@@ -3,6 +3,7 @@ import 'package:active_ecommerce_flutter/helpers/auth_helper.dart';
 import 'package:active_ecommerce_flutter/helpers/business_setting_helper.dart';
 import 'package:active_ecommerce_flutter/other_config.dart';
 import 'package:active_ecommerce_flutter/screens/categories_list2.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -109,9 +110,260 @@ class _MyAppState extends State<MyApp> {
             locale: provider.locale,
             supportedLocales: LangConfig().supportedLocales(),
             //home: CategoryList2()
-            home :Splash(),
+            home: Splash(),
             //home: Main(),
           );
         }));
+  }
+}
+
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  // The group value
+  var _result;
+  Widget build(BuildContext context) {
+    return Padding(
+        padding: const EdgeInsets.all(0),
+        child: Column(
+          //  crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            RadioListTile(
+                contentPadding: EdgeInsets.all(0),
+                title: const Text(
+                  'Home (7am - 9pm, All day )',
+                  style: TextStyle(fontWeight: FontWeight.w600),
+                ),
+                value: 4,
+                groupValue: _result,
+                onChanged: (value) {
+                  setState(() {
+                    _result = value;
+                  });
+                }),
+            RadioListTile(
+                contentPadding: EdgeInsets.all(0),
+                toggleable: true,
+                title: const Text(
+                  'Office ( 9am - 6pm, Weekdays )',
+                  style: TextStyle(fontWeight: FontWeight.w600),
+                ),
+                value: 5.4,
+                groupValue: _result,
+                onChanged: (value) {
+                  setState(() {
+                    _result = value;
+                  });
+                }),
+          ],
+        ));
+  }
+}
+
+// Container(
+//   padding: EdgeInsets.all(5),
+//   child: buildFlashDealLisst(context) ,)
+// Row(
+//   children: [
+//     Container(
+//       decoration: BoxDecoration(
+//           borderRadius:
+//               BorderRadius.circular(4),
+//           color: Colors.black),
+//       height: 20,
+//       width: 24,
+//       child: Center(
+//         child: Text(
+//           '10',
+//           // AppLocalizations.of(context).home_screen_featured_categories,
+//           style: TextStyle(
+//               fontSize: 16,
+//               color: Colors.white),
+//         ),
+//       ),
+//     ),
+//     SizedBox(
+//         width: 18,
+//         child: Text(
+//           (':'),
+//           textAlign: TextAlign.center,
+//           style: TextStyle(
+//               fontSize: 26,
+//               color: Colors.black),
+//         )),
+//     SizedBox(
+//       width: 2,
+//     ),
+//     Container(
+//       decoration: BoxDecoration(
+//           borderRadius:
+//               BorderRadius.circular(4),
+//           color: Colors.black),
+//       height: 20,
+//       width: 24,
+//       child: Center(
+//         child: Text(
+//           '04',
+//           // AppLocalizations.of(context).home_screen_featured_categories,
+//           style: TextStyle(
+//               fontSize: 16,
+//               color: Colors.white),
+//         ),
+//       ),
+//     ),
+//     SizedBox(
+//         width: 18,
+//         child: Text(
+//           (':'),
+//           textAlign: TextAlign.center,
+//           style: TextStyle(
+//               fontSize: 26,
+//               color: Colors.black),
+//         )),
+//     Container(
+//       decoration: BoxDecoration(
+//           borderRadius:
+//               BorderRadius.circular(4),
+//           color: Colors.black),
+//       height: 20,
+//       width: 24,
+//       child: Center(
+//         child: Text(
+//           '17',
+//           // AppLocalizations.of(context).home_screen_featured_categories,
+//           style: TextStyle(
+//               fontSize: 16,
+//               color: Colors.white),
+//         ),
+//       ),
+//     ),
+//     SizedBox(
+//         width: 18,
+//         child: Text(
+//           (':'),
+//           textAlign: TextAlign.center,
+//           style: TextStyle(
+//               fontSize: 26,
+//               color: Colors.black),
+//         )),
+//     Container(
+//       decoration: BoxDecoration(
+//           borderRadius:
+//               BorderRadius.circular(4),
+//           color: Colors.black),
+//       height: 20,
+//       width: 24,
+//       child: Center(
+//         child: Text(
+//           '00',
+//           // AppLocalizations.of(context).home_screen_featured_categories,
+//           style: TextStyle(
+//               fontSize: 16,
+//               color: Colors.white),
+//         ),
+//       ),
+//     )
+//   ],
+// ),
+
+class MyApps extends StatelessWidget {
+  static const String _title = 'Flutter Code Sample';
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: _title,
+      home: 
+  
+       MyStatefulWidget(),
+    
+    );
+  }
+}
+
+class LinkedLabelRadio extends StatelessWidget {
+  const LinkedLabelRadio({
+    this.label,
+    this.padding,
+    this.groupValue,
+    this.value,
+    this.onChanged,
+  }) : super();
+
+  final String label;
+  final EdgeInsets padding;
+  final bool groupValue;
+  final bool value;
+  final ValueChanged<bool> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: <Widget>[
+        Radio<bool>(
+            groupValue: groupValue,
+            value: value,
+            onChanged: (bool newValue) {
+              onChanged(newValue);
+            }),
+        RichText(
+          text: TextSpan(
+            text: label,
+            style: const TextStyle(
+              color: Colors.blueAccent,
+              decoration: TextDecoration.underline,
+            ),
+            recognizer: TapGestureRecognizer()
+              ..onTap = () {
+                debugPrint('Label has been tapped.');
+              },
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class MyStatefulWidget extends StatefulWidget {
+  @override
+  State<MyStatefulWidget> createState() => _MyStatefulWidgetState();
+}
+
+class _MyStatefulWidgetState extends State<MyStatefulWidget> {
+  bool _isRadioSelected = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          LinkedLabelRadio(
+            label: ('First tappable label text'),
+            padding: const EdgeInsets.symmetric(horizontal: 5.0),
+            value: true,
+            groupValue: _isRadioSelected,
+            onChanged: (bool newValue) {
+              setState(() {
+                _isRadioSelected = newValue;
+              });
+            },
+          ),
+          LinkedLabelRadio(
+            label: 'Second tappable label text',
+            padding: const EdgeInsets.symmetric(horizontal: 5.0),
+            value: false,
+            groupValue: _isRadioSelected,
+            onChanged: (bool newValue) {
+              setState(() {
+                _isRadioSelected = newValue;
+              });
+            },
+          ),
+        ],
+      
+    );
   }
 }

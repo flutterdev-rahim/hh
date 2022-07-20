@@ -127,9 +127,10 @@ class _MainDrawerState extends State<MainDrawer> {
                           ListTile(
                               visualDensity:
                                   VisualDensity(horizontal: -4, vertical: -4),
-                              leading: Image.asset("assets/order.png",
-                                  height: 16,
-                                  color: Color.fromRGBO(153, 153, 153, 1)),
+                              leading:Icon(Icons.online_prediction_rounded),
+                              //  Image.asset("assets/order.png",
+                              //     height: 16,
+                              //     color: Color.fromRGBO(153, 153, 153, 1)),
                               title: Text(
                                   AppLocalizations.of(context)
                                       .main_drawer_orders,
@@ -182,9 +183,10 @@ class _MainDrawerState extends State<MainDrawer> {
                               ? ListTile(
                                   visualDensity: VisualDensity(
                                       horizontal: -4, vertical: -4),
-                                  leading: Image.asset("assets/wallet.png",
-                                      height: 16,
-                                      color: Color.fromRGBO(153, 153, 153, 1)),
+                                  leading:Icon(Icons.wallet_giftcard),
+                                  //  Image.asset("assets/wallet.png",
+                                  //     height: 16,
+                                  //     color: Color.fromRGBO(153, 153, 153, 1)),
                                   title: Text(
                                       AppLocalizations.of(context)
                                           .main_drawer_wallet,

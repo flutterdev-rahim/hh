@@ -199,59 +199,53 @@ class _ProfileState extends State<Profile> {
                     onPopped(value);
                   });
                 },
-                child: Expanded(
-                  child: Column(
-                    children: [
-                      Column(
-                        children: [
-                          Container(
-                              height: 60,
-                              width: 75,
-                              decoration: BoxDecoration(
-                                  // color: MyTheme.light_grey,
-                                  // shape: BoxShape.circle,
-                                  ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(0.0),
-                                child: Column(
-                                  children: [
-                                    Expanded(
-                                      child:
-                                          //     Icon(
-                                          //   Icons.flash_on,
-                                          //   size: 35,
-                                          //   color: MyTheme.iconcircle.withOpacity(.8),
-                                          // )
-                                          Image.asset(
-                                        "assets/profiles.png",
-                                        fit: BoxFit.cover,
-                                        width: 140,
-                                        height: 140,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(bottom: 0),
-                                      child: Text(
-                                        'Profile',
-                                        // AppLocalizations.of(context).profile_screen_orders,
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            color: MyTheme.font_grey,
-                                            fontWeight: FontWeight.w300),
-                                      ),
-                                    )
-                                  ],
+                child: Column(
+                  children: [
+                    Container(
+                        height: 60,
+                        width: 75,
+                        decoration: BoxDecoration(
+                            // color: MyTheme.light_grey,
+                            // shape: BoxShape.circle,
+                            ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(0.0),
+                          child: Column(
+                            children: [
+                              Expanded(
+                                child:
+                                    //     Icon(
+                                    //   Icons.flash_on,
+                                    //   size: 35,
+                                    //   color: MyTheme.iconcircle.withOpacity(.8),
+                                    // )
+                                    Image.asset(
+                                  "assets/profiles.png",
+                                  fit: BoxFit.cover,
+                                  width: 140,
+                                  height: 140,
                                 ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 0),
+                                child: Text(
+                                  'Profile',
+                                  // AppLocalizations.of(context).profile_screen_orders,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: MyTheme.font_grey,
+                                      fontWeight: FontWeight.w300),
+                                ),
+                              )
+                            ],
+                          ),
 
-                                //  Icon(
-                                //   Icons.reviews_outlined,
-                                //   color: MyTheme.iconcircle,
-                                // ),
-                              )),
-                        ],
-                      ),
-                    ],
-                  ),
+                          //  Icon(
+                          //   Icons.reviews_outlined,
+                          //   color: MyTheme.iconcircle,
+                          // ),
+                        )),
+                  ],
                 ),
               ),
               InkWell(
@@ -260,59 +254,53 @@ class _ProfileState extends State<Profile> {
                     return Address();
                   }));
                 },
-                child: Expanded(
-                  child: Column(
-                    children: [
-                      Column(
-                        children: [
-                          Container(
-                              height: 70,
-                              width: 85,
-                              decoration: BoxDecoration(
-                                  // color: MyTheme.light_grey,
-                                  // shape: BoxShape.circle,
-                                  ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(0.0),
-                                child: Column(
-                                  children: [
-                                    Expanded(
-                                      child:
-                                          //     Icon(
-                                          //   Icons.flash_on,
-                                          //   size: 35,
-                                          //   color: MyTheme.iconcircle.withOpacity(.8),
-                                          // )
-                                          Image.asset(
-                                        "assets/addresss.png",
-                                        fit: BoxFit.cover,
-                                        width: 140,
-                                        height: 140,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(bottom: 0),
-                                      child: Text(
-                                        'Address',
-                                        // AppLocalizations.of(context).profile_screen_orders,
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            color: MyTheme.font_grey,
-                                            fontWeight: FontWeight.w300),
-                                      ),
-                                    )
-                                  ],
+                child: Column(
+                  children: [
+                    Container(
+                        height: 70,
+                        width: 85,
+                        decoration: BoxDecoration(
+                            // color: MyTheme.light_grey,
+                            // shape: BoxShape.circle,
+                            ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(0.0),
+                          child: Column(
+                            children: [
+                              Expanded(
+                                child:
+                                    //     Icon(
+                                    //   Icons.flash_on,
+                                    //   size: 35,
+                                    //   color: MyTheme.iconcircle.withOpacity(.8),
+                                    // )
+                                    Image.asset(
+                                  "assets/addresss.png",
+                                  fit: BoxFit.cover,
+                                  width: 140,
+                                  height: 140,
                                 ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 0),
+                                child: Text(
+                                  'Address',
+                                  // AppLocalizations.of(context).profile_screen_orders,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: MyTheme.font_grey,
+                                      fontWeight: FontWeight.w300),
+                                ),
+                              )
+                            ],
+                          ),
 
-                                //  Icon(
-                                //   Icons.reviews_outlined,
-                                //   color: MyTheme.iconcircle,
-                                // ),
-                              )),
-                        ],
-                      ),
-                    ],
-                  ),
+                          //  Icon(
+                          //   Icons.reviews_outlined,
+                          //   color: MyTheme.iconcircle,
+                          // ),
+                        )),
+                  ],
                 ),
               ),
               /*InkWell(
@@ -355,59 +343,53 @@ class _ProfileState extends State<Profile> {
                     ;
                   }));
                 },
-                child: Expanded(
-                  child: Column(
-                    children: [
-                      Column(
-                        children: [
-                          Container(
-                              height: 70,
-                              width: 85,
-                              decoration: BoxDecoration(
-                                  // color: MyTheme.light_grey,
-                                  // shape: BoxShape.circle,
-                                  ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(0.0),
-                                child: Column(
-                                  children: [
-                                    Expanded(
-                                      child:
-                                          //     Icon(
-                                          //   Icons.flash_on,
-                                          //   size: 35,
-                                          //   color: MyTheme.iconcircle.withOpacity(.8),
-                                          // )
-                                          Image.asset(
-                                        "assets/contactss.png",
-                                        fit: BoxFit.cover,
-                                        width: 140,
-                                        height: 140,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(bottom: 0),
-                                      child: Text(
-                                        'Contact Us',
-                                        // AppLocalizations.of(context).profile_screen_orders,
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            color: MyTheme.font_grey,
-                                            fontWeight: FontWeight.w300),
-                                      ),
-                                    )
-                                  ],
+                child: Column(
+                  children: [
+                    Container(
+                        height: 70,
+                        width: 85,
+                        decoration: BoxDecoration(
+                            // color: MyTheme.light_grey,
+                            // shape: BoxShape.circle,
+                            ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(0.0),
+                          child: Column(
+                            children: [
+                              Expanded(
+                                child:
+                                    //     Icon(
+                                    //   Icons.flash_on,
+                                    //   size: 35,
+                                    //   color: MyTheme.iconcircle.withOpacity(.8),
+                                    // )
+                                    Image.asset(
+                                  "assets/contactss.png",
+                                  fit: BoxFit.cover,
+                                  width: 140,
+                                  height: 140,
                                 ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 0),
+                                child: Text(
+                                  'Contact Us',
+                                  // AppLocalizations.of(context).profile_screen_orders,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: MyTheme.font_grey,
+                                      fontWeight: FontWeight.w300),
+                                ),
+                              )
+                            ],
+                          ),
 
-                                //  Icon(
-                                //   Icons.reviews_outlined,
-                                //   color: MyTheme.iconcircle,
-                                // ),
-                              )),
-                        ],
-                      ),
-                    ],
-                  ),
+                          //  Icon(
+                          //   Icons.reviews_outlined,
+                          //   color: MyTheme.iconcircle,
+                          // ),
+                        )),
+                  ],
                 ),
               ),
               InkWell(
@@ -419,59 +401,53 @@ class _ProfileState extends State<Profile> {
                     ;
                   }));
                 },
-                child: Expanded(
-                  child: Column(
-                    children: [
-                      Column(
-                        children: [
-                          Container(
-                              height: 70,
-                              width: 85,
-                              decoration: BoxDecoration(
-                                  // color: MyTheme.light_grey,
-                                  // shape: BoxShape.circle,
-                                  ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(0.0),
-                                child: Column(
-                                  children: [
-                                    Expanded(
-                                      child:
-                                          //     Icon(
-                                          //   Icons.flash_on,
-                                          //   size: 35,
-                                          //   color: MyTheme.iconcircle.withOpacity(.8),
-                                          // )
-                                          Image.asset(
-                                        "assets/settings.png",
-                                        fit: BoxFit.cover,
-                                        width: 140,
-                                        height: 140,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(bottom: 0),
-                                      child: Text(
-                                        'Setting',
-                                        // AppLocalizations.of(context).profile_screen_orders,
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            color: MyTheme.font_grey,
-                                            fontWeight: FontWeight.w300),
-                                      ),
-                                    )
-                                  ],
+                child: Column(
+                  children: [
+                    Container(
+                        height: 70,
+                        width: 85,
+                        decoration: BoxDecoration(
+                            // color: MyTheme.light_grey,
+                            // shape: BoxShape.circle,
+                            ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(0.0),
+                          child: Column(
+                            children: [
+                              Expanded(
+                                child:
+                                    //     Icon(
+                                    //   Icons.flash_on,
+                                    //   size: 35,
+                                    //   color: MyTheme.iconcircle.withOpacity(.8),
+                                    // )
+                                    Image.asset(
+                                  "assets/settings.png",
+                                  fit: BoxFit.cover,
+                                  width: 140,
+                                  height: 140,
                                 ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 0),
+                                child: Text(
+                                  'Setting',
+                                  // AppLocalizations.of(context).profile_screen_orders,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: MyTheme.font_grey,
+                                      fontWeight: FontWeight.w300),
+                                ),
+                              )
+                            ],
+                          ),
 
-                                //  Icon(
-                                //   Icons.reviews_outlined,
-                                //   color: MyTheme.iconcircle,
-                                // ),
-                              )),
-                        ],
-                      ),
-                    ],
-                  ),
+                          //  Icon(
+                          //   Icons.reviews_outlined,
+                          //   color: MyTheme.iconcircle,
+                          // ),
+                        )),
+                  ],
                 ),
               ),
             ],
@@ -514,48 +490,44 @@ class _ProfileState extends State<Profile> {
                   },
                   child: Column(
                     children: [
-                      Column(
-                        children: [
-                          Container(
-                              height: 70,
-                              width: 85,
-                              decoration: BoxDecoration(
-                                  // color: MyTheme.light_grey,
-                                  // shape: BoxShape.circle,
+                      Container(
+                          height: 70,
+                          width: 85,
+                          decoration: BoxDecoration(
+                              // color: MyTheme.light_grey,
+                              // shape: BoxShape.circle,
+                              ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(0.0),
+                            child: Column(
+                              children: [
+                                Expanded(
+                                  child: Image.asset(
+                                    "assets/orderss.png",
+                                    fit: BoxFit.cover,
+                                    width: 140,
+                                    height: 140,
                                   ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(0.0),
-                                child: Column(
-                                  children: [
-                                    Expanded(
-                                      child: Image.asset(
-                                        "assets/orderss.png",
-                                        fit: BoxFit.cover,
-                                        width: 140,
-                                        height: 140,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(bottom: 0),
-                                      child: Text(
-                                        'Orders',
-                                        // AppLocalizations.of(context).profile_screen_orders,
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            // color: MyTheme.font_grey,
-                                            fontWeight: FontWeight.w300),
-                                      ),
-                                    )
-                                  ],
                                 ),
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 0),
+                                  child: Text(
+                                    'Orders',
+                                    // AppLocalizations.of(context).profile_screen_orders,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        // color: MyTheme.font_grey,
+                                        fontWeight: FontWeight.w300),
+                                  ),
+                                )
+                              ],
+                            ),
 
-                                //  Icon(
-                                //   Icons.reviews_outlined,
-                                //   color: MyTheme.iconcircle,
-                                // ),
-                              )),
-                        ],
-                      ),
+                            //  Icon(
+                            //   Icons.reviews_outlined,
+                            //   color: MyTheme.iconcircle,
+                            // ),
+                          )),
                     ],
                   ),
                 ),
@@ -673,67 +645,63 @@ class _ProfileState extends State<Profile> {
                     ],
                   ),
                 ),
-                InkWell(
-                  onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                      return CommonWebviewScreen(
-                        url: 'https://tamampk.com/review',
-                      );
-                    }));
-                  },
-                  child: Expanded(
+                Expanded(
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return CommonWebviewScreen(
+                          url: 'https://tamampk.com/review',
+                        );
+                      }));
+                    },
                     child: Column(
                       children: [
-                        Column(
-                          children: [
-                            Container(
-                                height: 70,
-                                width: 85,
-                                decoration: BoxDecoration(
-                                    // color: MyTheme.light_grey,
-                                    // shape: BoxShape.circle,
-                                    ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(0.0),
-                                  child: Column(
-                                    children: [
-                                      Expanded(
-                                          child:
-                                          // Icon(
-                                      //   Icons.star_rate,
-                                      //   color: MyTheme.iconcircle,
-                                      //   size: 30,
-                                      // )
-                                           Image.asset(
-                                            "assets/review.png",
-                                            fit: BoxFit.cover,
-                                            width: 140,
-                                            height: 140,
-                                          ),
-                                          ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(bottom: 0),
-                                        child: Text(
-                                          'Review',
-                                          // AppLocalizations.of(context).profile_screen_orders,
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              color: MyTheme.font_grey,
-                                              fontWeight: FontWeight.w300),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-
-                                  //  Icon(
-                                  //   Icons.reviews_outlined,
+                        Container(
+                            height: 70,
+                            width: 85,
+                            decoration: BoxDecoration(
+                                // color: MyTheme.light_grey,
+                                // shape: BoxShape.circle,
+                                ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(0.0),
+                              child: Column(
+                                children: [
+                                  Expanded(
+                                      child:
+                                      // Icon(
+                                  //   Icons.star_rate,
                                   //   color: MyTheme.iconcircle,
-                                  // ),
-                                )),
-                          ],
-                        ),
+                                  //   size: 30,
+                                  // )
+                                       Image.asset(
+                                        "assets/review.png",
+                                        fit: BoxFit.cover,
+                                        width: 140,
+                                        height: 140,
+                                      ),
+                                      ),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.only(bottom: 0),
+                                    child: Text(
+                                      'Review',
+                                      // AppLocalizations.of(context).profile_screen_orders,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: MyTheme.font_grey,
+                                          fontWeight: FontWeight.w300),
+                                    ),
+                                  )
+                                ],
+                              ),
+
+                              //  Icon(
+                              //   Icons.reviews_outlined,
+                              //   color: MyTheme.iconcircle,
+                              // ),
+                            )),
                       ],
                     ),
                   ),
@@ -786,53 +754,47 @@ class _ProfileState extends State<Profile> {
                   return Wallet();
                 }));
               },
-              child: Expanded(
-                child: Column(
-                  children: [
-                    Column(
-                      children: [
-                        Container(
-                            height: 70,
-                            width: 85,
-                            decoration: BoxDecoration(
-                                // color: MyTheme.light_grey,
-                                // shape: BoxShape.circle,
-                                ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(0.0),
-                              child: Column(
-                                children: [
-                                  Expanded(
-                                    child: Image.asset(
-                                      "assets/walletss.png",
-                                      fit: BoxFit.cover,
-                                      width: 140,
-                                      height: 140,
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(bottom: 0),
-                                    child: Text(
-                                      'Wallet',
-                                      // AppLocalizations.of(context).profile_screen_orders,
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          color: MyTheme.font_grey,
-                                          fontWeight: FontWeight.w300),
-                                    ),
-                                  )
-                                ],
+              child: Column(
+                children: [
+                  Container(
+                      height: 70,
+                      width: 85,
+                      decoration: BoxDecoration(
+                          // color: MyTheme.light_grey,
+                          // shape: BoxShape.circle,
+                          ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(0.0),
+                        child: Column(
+                          children: [
+                            Expanded(
+                              child: Image.asset(
+                                "assets/walletss.png",
+                                fit: BoxFit.cover,
+                                width: 140,
+                                height: 140,
                               ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 0),
+                              child: Text(
+                                'Wallet',
+                                // AppLocalizations.of(context).profile_screen_orders,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: MyTheme.font_grey,
+                                    fontWeight: FontWeight.w300),
+                              ),
+                            )
+                          ],
+                        ),
 
-                              //  Icon(
-                              //   Icons.reviews_outlined,
-                              //   color: MyTheme.iconcircle,
-                              // ),
-                            )),
-                      ],
-                    ),
-                  ],
-                ),
+                        //  Icon(
+                        //   Icons.reviews_outlined,
+                        //   color: MyTheme.iconcircle,
+                        // ),
+                      )),
+                ],
               ),
             ),
             InkWell(
@@ -843,53 +805,47 @@ class _ProfileState extends State<Profile> {
                   );
                 }));
               },
-              child: Expanded(
-                child: Column(
-                  children: [
-                    Column(
-                      children: [
-                        Container(
-                            height: 70,
-                            width: 85,
-                            decoration: BoxDecoration(
-                                // color: MyTheme.light_grey,
-                                // shape: BoxShape.circle,
-                                ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(0.0),
-                              child: Column(
-                                children: [
-                                  Expanded(
-                                    child: Image.asset(
-                                      "assets/couponss.png",
-                                      fit: BoxFit.cover,
-                                      width: 140,
-                                      height: 140,
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(bottom: 0),
-                                    child: Text(
-                                      'Coupon',
-                                      // AppLocalizations.of(context).profile_screen_orders,
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          color: MyTheme.font_grey,
-                                          fontWeight: FontWeight.w300),
-                                    ),
-                                  )
-                                ],
+              child: Column(
+                children: [
+                  Container(
+                      height: 70,
+                      width: 85,
+                      decoration: BoxDecoration(
+                          // color: MyTheme.light_grey,
+                          // shape: BoxShape.circle,
+                          ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(0.0),
+                        child: Column(
+                          children: [
+                            Expanded(
+                              child: Image.asset(
+                                "assets/couponss.png",
+                                fit: BoxFit.cover,
+                                width: 140,
+                                height: 140,
                               ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 0),
+                              child: Text(
+                                'Coupon',
+                                // AppLocalizations.of(context).profile_screen_orders,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: MyTheme.font_grey,
+                                    fontWeight: FontWeight.w300),
+                              ),
+                            )
+                          ],
+                        ),
 
-                              //  Icon(
-                              //   Icons.reviews_outlined,
-                              //   color: MyTheme.iconcircle,
-                              // ),
-                            )),
-                      ],
-                    ),
-                  ],
-                ),
+                        //  Icon(
+                        //   Icons.reviews_outlined,
+                        //   color: MyTheme.iconcircle,
+                        // ),
+                      )),
+                ],
               ),
             ),
             // InkWell(
@@ -967,59 +923,53 @@ class _ProfileState extends State<Profile> {
                   );
                 }));
               },
-              child: Expanded(
-                child: Column(
-                  children: [
-                    Column(
-                      children: [
-                        Container(
-                            height: 70,
-                            width: 85,
-                            decoration: BoxDecoration(
-                                // color: MyTheme.light_grey,
-                                // shape: BoxShape.circle,
-                                ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(0.0),
-                              child: Column(
-                                children: [
-                                  Expanded(
-                                    child:
-                                        //     Icon(
-                                        //   Icons.follow_the_signs_outlined,
-                                        //   size: 35,
-                                        //   color: MyTheme.iconcircle.withOpacity(.8),
-                                        // )
-                                        Image.asset(
-                                      "assets/messagess.png",
-                                      fit: BoxFit.cover,
-                                      width: 140,
-                                      height: 140,
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(bottom: 0),
-                                    child: Text(
-                                      'Following',
-                                      // AppLocalizations.of(context).profile_screen_orders,
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          color: MyTheme.font_grey,
-                                          fontWeight: FontWeight.w300),
-                                    ),
-                                  )
-                                ],
+              child: Column(
+                children: [
+                  Container(
+                      height: 70,
+                      width: 85,
+                      decoration: BoxDecoration(
+                          // color: MyTheme.light_grey,
+                          // shape: BoxShape.circle,
+                          ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(0.0),
+                        child: Column(
+                          children: [
+                            Expanded(
+                              child:
+                                  //     Icon(
+                                  //   Icons.follow_the_signs_outlined,
+                                  //   size: 35,
+                                  //   color: MyTheme.iconcircle.withOpacity(.8),
+                                  // )
+                                  Image.asset(
+                                "assets/messagess.png",
+                                fit: BoxFit.cover,
+                                width: 140,
+                                height: 140,
                               ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 0),
+                              child: Text(
+                                'Following',
+                                // AppLocalizations.of(context).profile_screen_orders,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: MyTheme.font_grey,
+                                    fontWeight: FontWeight.w300),
+                              ),
+                            )
+                          ],
+                        ),
 
-                              //  Icon(
-                              //   Icons.reviews_outlined,
-                              //   color: MyTheme.iconcircle,
-                              // ),
-                            )),
-                      ],
-                    ),
-                  ],
-                ),
+                        //  Icon(
+                        //   Icons.reviews_outlined,
+                        //   color: MyTheme.iconcircle,
+                        // ),
+                      )),
+                ],
               ),
             ),
             InkWell(
@@ -1031,59 +981,53 @@ class _ProfileState extends State<Profile> {
                   ;
                 }));
               },
-              child: Expanded(
-                child: Column(
-                  children: [
-                    Column(
-                      children: [
-                        Container(
-                            height: 70,
-                            width: 85,
-                            decoration: BoxDecoration(
-                                // color: MyTheme.light_grey,
-                                // shape: BoxShape.circle,
+              child: Column(
+                children: [
+                  Container(
+                      height: 70,
+                      width: 85,
+                      decoration: BoxDecoration(
+                          // color: MyTheme.light_grey,
+                          // shape: BoxShape.circle,
+                          ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(0.0),
+                        child: Column(
+                          children: [
+                            Expanded(
+                                child:
+                            //      Icon(
+                            //   Icons.flash_on,
+                            //   size: 35,
+                            //   color: MyTheme.iconcircle.withOpacity(.8),
+                            // )
+                                 Image.asset(
+                                  "assets/sellfor.png",
+                                  fit: BoxFit.cover,
+                                  width: 140,
+                                  height: 140,
                                 ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(0.0),
-                              child: Column(
-                                children: [
-                                  Expanded(
-                                      child:
-                                  //      Icon(
-                                  //   Icons.flash_on,
-                                  //   size: 35,
-                                  //   color: MyTheme.iconcircle.withOpacity(.8),
-                                  // )
-                                       Image.asset(
-                                        "assets/sellfor.png",
-                                        fit: BoxFit.cover,
-                                        width: 140,
-                                        height: 140,
-                                      ),
-                                      ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(bottom: 0),
-                                    child: Text(
-                                      'Sell For deal',
-                                      // AppLocalizations.of(context).profile_screen_orders,
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          color: MyTheme.font_grey,
-                                          fontWeight: FontWeight.w300),
-                                    ),
-                                  )
-                                ],
+                                ),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 0),
+                              child: Text(
+                                'Sell For deal',
+                                // AppLocalizations.of(context).profile_screen_orders,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: MyTheme.font_grey,
+                                    fontWeight: FontWeight.w300),
                               ),
+                            )
+                          ],
+                        ),
 
-                              //  Icon(
-                              //   Icons.reviews_outlined,
-                              //   color: MyTheme.iconcircle,
-                              // ),
-                            )),
-                      ],
-                    ),
-                  ],
-                ),
+                        //  Icon(
+                        //   Icons.reviews_outlined,
+                        //   color: MyTheme.iconcircle,
+                        // ),
+                      )),
+                ],
               ),
             ),
           ],
@@ -1134,8 +1078,8 @@ class _ProfileState extends State<Profile> {
   buildVerticalMenu() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+      child: Row(crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           InkWell(
             onTap: () {
@@ -1186,13 +1130,13 @@ class _ProfileState extends State<Profile> {
             },
             child: Padding(
               padding: const EdgeInsets.only(bottom: 16.0),
-              child: Row(
+              child: Column(
                 children: [
                   Container(
                       height: 40,
                       width: 40,
                       decoration: BoxDecoration(
-                        color: Colors.green,
+                        color: MyTheme.login_button,
                         shape: BoxShape.circle,
                       ),
                       child: Padding(
@@ -1231,7 +1175,7 @@ class _ProfileState extends State<Profile> {
                             height: 40,
                             width: 40,
                             decoration: BoxDecoration(
-                              color: Colors.orange,
+                              color: MyTheme.login_button,
                               shape: BoxShape.circle,
                             ),
                             child: Padding(
@@ -1266,13 +1210,13 @@ class _ProfileState extends State<Profile> {
                   },
                   child: Padding(
                     padding: const EdgeInsets.only(bottom: 16.0),
-                    child: Row(
+                    child: Column(
                       children: [
                         Container(
                             height: 40,
                             width: 40,
                             decoration: BoxDecoration(
-                              color: Colors.pinkAccent,
+                              color: MyTheme.login_button,
                               shape: BoxShape.circle,
                             ),
                             child: Padding(
@@ -1298,7 +1242,7 @@ class _ProfileState extends State<Profile> {
                 )
               : Container(),
           SizedBox(
-            height: 100,
+            height: 150,
           )
         ],
       ),
@@ -1429,14 +1373,14 @@ class _ProfileState extends State<Profile> {
             child: Container(
               height: 24,
               child: FlatButton(
-                color: Colors.green,
+                color: MyTheme.login_button,
                 // 	rgb(50,205,50)
                 shape: RoundedRectangleBorder(
                     borderRadius: const BorderRadius.only(
-                  topLeft: const Radius.circular(16.0),
-                  bottomLeft: const Radius.circular(16.0),
-                  topRight: const Radius.circular(16.0),
-                  bottomRight: const Radius.circular(16.0),
+                  topLeft: const Radius.circular(5.0),
+                  bottomLeft: const Radius.circular(5.0),
+                  topRight: const Radius.circular(5.0),
+                  bottomRight: const Radius.circular(5.0), 
                 )),
                 child: Text(
                   AppLocalizations.of(context).profile_screen_check_balance,

@@ -46,10 +46,9 @@ class _SplashState extends State<Splash> {
   }
 
   Future<Widget> loadFromFuture() async {
-
     // <fetch data from server. ex. login>
 
-    return Future.value( Main());
+    return Future.value(Main());
   }
 
   @override
@@ -58,10 +57,8 @@ class _SplashState extends State<Splash> {
       //comment this
       seconds: 3,
 
-
       //comment this
       navigateAfterSeconds: Main(),
-
 
       //navigateAfterFuture: loadFromFuture(), //uncomment this
       // title: Text(
@@ -79,9 +76,9 @@ class _SplashState extends State<Splash> {
         ),
       ),
       image: Image.asset("assets/splash_screen_logo.png"),
-     // backgroundImage:
-          //Image.asset("assets/splash_login_registration_background_image.png"),
-  backgroundColor: MyTheme.Grey_third,
+      // backgroundImage:
+      //Image.asset("assets/splash_login_registration_background_image.png"),
+      backgroundColor: MyTheme.Grey_third,
       photoSize: 60.0,
       backgroundPhotoSize: 140.0,
     );
@@ -295,74 +292,79 @@ class _CustomSplashScreenState extends State<CustomSplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Directionality(
-      textDirection: app_language_rtl.$ ? TextDirection.rtl : TextDirection.ltr,
-      child: Scaffold(
-         body:Container(child: Image.asset(
-                   "assets/flash_screen_bacground.png",width: double.infinity,fit: BoxFit.fill,),
+        textDirection:
+            app_language_rtl.$ ? TextDirection.rtl : TextDirection.ltr,
+        child: Scaffold(
+          body: Container(
+            child: Image.asset(
+              "assets/flash_screen_bacground.png",
+              width: double.infinity,
+              fit: BoxFit.fill,
+            ),
             // ), ,)
-        //
-        // InkWell(
-        //   onTap: widget.onClick,
-        //   child: Stack(
-        //     fit: StackFit.expand,
-        //     children: <Widget>[
-        //       Container(
-        //         decoration: BoxDecoration(
-        //           image: widget.imageBackground == null
-        //               ? null
-        //               : DecorationImage(
-        //                   fit: BoxFit.cover,
-        //                   image: widget.imageBackground,
-        //                 ),
-        //           gradient: widget.gradientBackground,
-        //           color: widget.backgroundColor,
-        //         ),
-        //       ),
-        //       Column(
-        //         mainAxisAlignment: MainAxisAlignment.start,
-        //         crossAxisAlignment: CrossAxisAlignment.start,
-        //         children: <Widget>[
-        //           CircleAvatar(
-        //             backgroundColor: Colors.transparent,
-        //             child: Hero(
-        //               tag: "backgroundImageInSplash",
-        //               child: Container(child: widget.backgroundImage),
-        //             ),
-        //             radius: widget.backgroundPhotoSize,
-        //           ),
-        //           Padding(
-        //             padding: const EdgeInsets.only(top: 120.0),
-        //             child: Container(
-        //                 width: double.infinity,
-        //                 child: Column(
-        //                   mainAxisAlignment: MainAxisAlignment.center,
-        //                   crossAxisAlignment: CrossAxisAlignment.center,
-        //                   children: <Widget>[
-        //                     Padding(
-        //                       padding: const EdgeInsets.only(bottom: 60.0),
-        //                       child: CircleAvatar(
-        //                         backgroundColor: Colors.transparent,
-        //                         child: Hero(
-        //                           tag: "splashscreenImage",
-        //                           child: Container(child: widget.image),
-        //                         ),
-        //                         radius: widget.photoSize,
-        //                       ),
-        //                     ),
-        //                     widget.title,
-        //                     Padding(
-        //                       padding: const EdgeInsets.only(top: 10.0),
-        //                     ),
-        //                     widget.loadingText
-        //                   ],
-        //                 )),
-        //           ),
-        //         ],
-        //       ),
-        //     ],
-        //   ),
-        // ),
-      ),
-    ));
+            //
+            // InkWell(
+            //   onTap: widget.onClick,
+            //   child: Stack(
+            //     fit: StackFit.expand,
+            //     children: <Widget>[
+            //       Container(
+            //         decoration: BoxDecoration(
+            //           image: widget.imageBackground == null
+            //               ? null
+            //               : DecorationImage(
+            //                   fit: BoxFit.cover,
+            //                   image: widget.imageBackground,
+            //                 ),
+            //           gradient: widget.gradientBackground,
+            //           color: widget.backgroundColor,
+            //         ),
+            //       ),
+            //       Column(
+            //         mainAxisAlignment: MainAxisAlignment.start,
+            //         crossAxisAlignment: CrossAxisAlignment.start,
+            //         children: <Widget>[
+            //           CircleAvatar(
+            //             backgroundColor: Colors.transparent,
+            //             child: Hero(
+            //               tag: "backgroundImageInSplash",
+            //               child: Container(child: widget.backgroundImage),
+            //             ),
+            //             radius: widget.backgroundPhotoSize,
+            //           ),
+            //           Padding(
+            //             padding: const EdgeInsets.only(top: 120.0),
+            //             child: Container(
+            //                 width: double.infinity,
+            //                 child: Column(
+            //                   mainAxisAlignment: MainAxisAlignment.center,
+            //                   crossAxisAlignment: CrossAxisAlignment.center,
+            //                   children: <Widget>[
+            //                     Padding(
+            //                       padding: const EdgeInsets.only(bottom: 60.0),
+            //                       child: CircleAvatar(
+            //                         backgroundColor: Colors.transparent,
+            //                         child: Hero(
+            //                           tag: "splashscreenImage",
+            //                           child: Container(child: widget.image),
+            //                         ),
+            //                         radius: widget.photoSize,
+            //                       ),
+            //                     ),
+            //                     widget.title,
+            //                     Padding(
+            //                       padding: const EdgeInsets.only(top: 10.0),
+            //                     ),
+            //                     widget.loadingText
+            //                   ],
+            //                 )),
+            //           ),
+            //         ],
+            //       ),
+            //     ],
+            //   ),
+            // ),
+          ),
+        ));
   }
 }

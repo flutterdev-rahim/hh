@@ -1,8 +1,14 @@
+import 'package:active_ecommerce_flutter/data_model/message_response.dart';
 import 'package:active_ecommerce_flutter/data_model/sub_category_model.dart';
+import 'package:active_ecommerce_flutter/main.dart';
 import 'package:active_ecommerce_flutter/my_theme.dart';
 import 'package:active_ecommerce_flutter/screens/cart.dart';
 import 'package:active_ecommerce_flutter/screens/category_products.dart';
 import 'package:active_ecommerce_flutter/screens/filter.dart';
+import 'package:active_ecommerce_flutter/screens/home.dart';
+import 'package:active_ecommerce_flutter/screens/main.dart';
+import 'package:active_ecommerce_flutter/screens/messenger_list.dart';
+import 'package:active_ecommerce_flutter/screens/profile.dart';
 import 'package:active_ecommerce_flutter/ui_sections/drawer.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
@@ -138,7 +144,7 @@ class _CategoryList2State extends State<CategoryList2> {
 
                 Container(
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(12.0),
                     child: FutureBuilder(
                       future: getSubCategories(categoryId.toString()),
                       builder: (context, snapshot) {
@@ -149,7 +155,7 @@ class _CategoryList2State extends State<CategoryList2> {
                               gridDelegate:
                                   SliverGridDelegateWithFixedCrossAxisCount(
                                       crossAxisCount: 3,
-                                      childAspectRatio: 1,
+                                      childAspectRatio: 1.1,
                                       crossAxisSpacing: 25,
                                       mainAxisSpacing: 15),
                               itemCount: data.length,
@@ -195,63 +201,27 @@ class _CategoryList2State extends State<CategoryList2> {
                                 );
                               });
                         } else {
-                          return Center(child: SpinKitFadingCircle(
-                            itemBuilder: (BuildContext context, int index) {
-                              return DecoratedBox(
-                                decoration: BoxDecoration(
-                                  color:
-                                      index.isEven ? Colors.red : Colors.green,
-                                ),
-                              );
-                            },
-                          ));
+                          return Center(
+                            child: Image.asset(
+                              "assets/Loading_icon.gif",
+                              fit: BoxFit.contain,
+                            ),
+                            //  SpinKitFadingCircle(
+                            //   itemBuilder: (BuildContext context, int index) {
+                            //     return DecoratedBox(
+                            //       decoration: BoxDecoration(
+                            //         color:
+                            //             index.isEven ? Colors.red : Colors.green,
+                            //       ),
+                            //     );
+                            //   },
+                            // )
+                          );
                         }
                       },
                     ),
                   ),
                 ),
-                // Container(
-                //   child: Padding(
-                //     padding: const EdgeInsets.all(8.0),
-                //     child: GridView.builder(
-                //         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                //             crossAxisCount: 3,
-                //             childAspectRatio: 1,
-                //             crossAxisSpacing: 5,
-                //             mainAxisSpacing: 15),
-                //         itemCount: subCategories.length,
-                //         itemBuilder: (BuildContext ctx, subindex) {
-                //           return Container(
-                //             alignment: Alignment.center,
-                //             child: Column(
-                //               children: [
-                //                 Expanded(
-                //                   child: Container(
-                //                     // height: 50,
-                //                     child: ClipRRect(
-                //                         borderRadius: BorderRadius.circular(10),
-                //                         child: Image.network(
-                //                           subCategories3[subindex]['banner'],
-                //                           fit: BoxFit.fill,
-                //                           width: double.infinity,
-                //                         )),
-                //                   ),
-                //                 ),
-                //                 Text(
-                //                   subCategories3[subindex]['name'],
-                //                   style: TextStyle(),
-                //                 ),
-                //               ],
-                //             ),
-                //             decoration: BoxDecoration(
-                //                 color: Colors.brown[100],
-                //                 borderRadius: BorderRadius.circular(15)),
-                //           );
-                //         }),
-                //   ),
-                // ),
-                // Expanded(child: Text(id.toString())),
-                // Expanded(child: Text(id.toString())),
               ],
             ))
           ],
@@ -283,71 +253,74 @@ class _CategoryList2State extends State<CategoryList2> {
       backgroundColor: Colors.white,
       // centerTitle: true,
       actions: [
-        IconButton(onPressed: (){
-          Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                      return Filter();
-                    })); 
-        }, icon:  Icon(
-          Icons.search,
-          color: MyTheme.dark_grey,
-          size: 27,
-        ),),
-       SizedBox(width: 16,),
-        Container(margin: EdgeInsets.only(right: 16),
-        //  color: Colors.amber,
-          height: 20,width: 23,
-          child: GestureDetector( onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                      return  Cart(has_bottomnav: false);
-                    }));
-                  },
+        IconButton(
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return Filter();
+            }));
+          },
+          icon: Icon(
+            Icons.search,
+            color: MyTheme.dark_grey,
+            size: 27,
+          ),
+        ),
+        SizedBox(
+          width: 16,
+        ),
+        Container(
+          margin: EdgeInsets.only(right: 16),
+          //  color: Colors.amber,
+          height: 20, width: 23,
+          child: GestureDetector(
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return Cart(has_bottomnav: false);
+              }));
+            },
             child: Image.asset(
               "assets/cart.png",
-                   
               fit: BoxFit.contain,
             ),
           ),
         ),
-        
-         PopupMenuButton(
-                   // add icon, by default "3 dot" icon
-                    icon: Icon(Icons.more_vert, color: MyTheme.dark_grey,),
-                   itemBuilder: (context){
-                     return [
-                            PopupMenuItem<int>(
-                                value: 0,
-                                child: Text("My Account"),
-                            ),
-
-                            PopupMenuItem<int>(
-                                value: 1,
-                                child: Text("Settings"),
-                            ),
-
-                            PopupMenuItem<int>(
-                                value: 2,
-                                child: Text("Logout"),
-                            ),
-                        ];
-                   },
-                   onSelected:(value){
-                      if(value == 0){
-                         print("My account menu is selected.");
-                      }else if(value == 1){
-                         print("Settings menu is selected.");
-                      }else if(value == 2){
-                         print("Logout menu is selected.");
-                      }
-                   }
-                  ),
-        
-         Container(margin: EdgeInsets.only(right: 16),
-        //  color: Colors.amber,
-          height: 20,width: 25,
-          child:Icon(Icons.more_vert, color: MyTheme.dark_grey,)
-        ),
+        PopupMenuButton(
+            // add icon, by default "3 dot" icon
+            icon: Icon(
+              Icons.more_vert,
+              color: MyTheme.dark_grey,
+            ),
+            itemBuilder: (context) {
+              return [
+                PopupMenuItem<int>(
+                  value: 0,
+                  child: Text("Home"),
+                ),
+                PopupMenuItem<int>(
+                  value: 1,
+                  child: Text("Messages"),
+                ),
+                PopupMenuItem<int>(
+                  value: 2,
+                  child: Text("Profile"),
+                ),
+              ];
+            },
+            onSelected: (value) {
+              if (value == 0) {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return Main();
+                }));
+              } else if (value == 1) {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return MessengerList();
+                }));
+              } else if (value == 2) {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return Profile();
+                }));
+              }
+            }),
       ],
       leading: GestureDetector(
         child: Builder(

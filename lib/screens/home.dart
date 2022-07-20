@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:active_ecommerce_flutter/custom/CommonFunctoins.dart';
 import 'package:active_ecommerce_flutter/dummy_data/featured_categories.dart';
 import 'package:active_ecommerce_flutter/dummy_data/flash_deals.dart';
@@ -12,11 +14,13 @@ import 'package:active_ecommerce_flutter/screens/feature_product.dart';
 import 'package:active_ecommerce_flutter/screens/filter.dart';
 import 'package:active_ecommerce_flutter/screens/flash_deal_list.dart';
 import 'package:active_ecommerce_flutter/screens/flash_deal_products.dart';
+import 'package:active_ecommerce_flutter/screens/product_details.dart';
 import 'package:active_ecommerce_flutter/screens/todays_deal_products.dart';
 import 'package:active_ecommerce_flutter/screens/top_selling_products.dart';
 import 'package:active_ecommerce_flutter/screens/category_products.dart';
 import 'package:active_ecommerce_flutter/screens/category_list.dart';
 import 'package:active_ecommerce_flutter/ui_elements/brand_square_card.dart';
+import 'package:active_ecommerce_flutter/ui_elements/mini_product_card.dart';
 import 'package:active_ecommerce_flutter/ui_sections/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -35,6 +39,7 @@ import 'package:active_ecommerce_flutter/ui_elements/product_card.dart';
 import 'package:active_ecommerce_flutter/helpers/shimmer_helper.dart';
 import 'package:active_ecommerce_flutter/helpers/shared_value_helper.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:http/http.dart' as http;
 
 class Home extends StatefulWidget {
   Home({Key key, this.title, this.show_back_button = false, go_back = true})
@@ -61,6 +66,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   List<dynamic> _brandList = [];
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   int _current_slider = 0;
+  List flashDealproductlist = [];
   ScrollController _featuredProductScrollController;
   ScrollController _mainScrollController = ScrollController();
   List<CountdownTimerController> _timerControllerList = [];
@@ -88,6 +94,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   bool showFlashdeal = true;
 
   void initState() {
+    flashDealData();
     showFlashdeal = true;
     // print("app_mobile_language.en${app_mobile_language.$}");
     // print("app_language.${app_language.$}");
@@ -121,6 +128,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     fetchCarouselImages();
     fetchFeaturedCategories();
     fetchFeaturedProducts();
+    // buildFlashDealLisst(context);
     // AddonsHelper().setAddonsData();
     // BusinessSettingHelper().setBusinessSettingData();
   }
@@ -445,8 +453,9 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                       fontSize: 16,
                                       fontWeight: FontWeight.w600),
                                 ),
-                                Row(crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     GestureDetector(
                                       onTap: () {
@@ -459,17 +468,16 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                       child: Text(
                                         'SHOP MORE',
                                         style: TextStyle(
-                                            fontSize: 12
-                                            ,
+                                            fontSize: 12,
                                             color: MyTheme.Grey_third),
                                       ),
                                     ),
                                     Icon(
                                       Icons.arrow_forward_ios,
                                       size: 12,
-                                    ), 
+                                    ),
                                   ],
-                                )
+                                ),
                               ],
                             ),
                           ),
@@ -503,178 +511,214 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                       //   ),
                       // ),
                       SliverList(
+                        delegate: SliverChildListDelegate([
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(
+                              6.0,
+                              16.0,
+                              6.0,
+                              0.0,
+                            ),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      'Flash Deal',
+                                      // AppLocalizations.of(context).home_screen_featured_categories,
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    buildFlashDealLisst(context),
+                                  ],
+                                ),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    FlashDealList()));
+                                      },
+                                      child: Text(
+                                        'SHOP MORE',
+                                        style: TextStyle(
+                                            fontSize: 12,
+                                            color: MyTheme.Grey_third),
+                                      ),
+                                    ),
+                                    Icon(
+                                      Icons.arrow_forward_ios,
+                                      size: 12,
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ]),
+                      ),
+                      SliverToBoxAdapter(
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(
+                            0.0,
+                            16.0,
+                            0.0,
+                            0.0,
+                          ),
+                          child: SizedBox(
+                              height: 165,
+                              child: ListView.builder(
+                                  itemCount: flashDealproductlist.length,
+                                  scrollDirection: Axis.horizontal,
+                                  shrinkWrap: true,
+                                  itemExtent: 120,
+                                  //  physics: NeverScrollableScrollPhysics(),
+                                  itemBuilder: (context, index) {
+                                    return InkWell(
+                                      onTap: () {
+                                        Navigator.push(context,
+                                            MaterialPageRoute(
+                                                builder: (context) {
+                                          return ProductDetails(
+                                              id: flashDealproductlist[index]
+                                                  ['id']);
+                                        }));
+                                      },
+                                      child: Card(
+                                        shape: RoundedRectangleBorder(
+                                          side: new BorderSide(
+                                              color: MyTheme.white, width: 0.0),
+                                          borderRadius:
+                                              BorderRadius.circular(16.0),
+                                        ),
+                                        elevation: 0.0,
+                                        child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              Container(
+                                                  width: double.infinity,
+                                                  height:
+                                                      (MediaQuery.of(context)
+                                                                  .size
+                                                                  .width -
+                                                              36) /
+                                                          3.5,
+                                                  child: ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.vertical(
+                                                              top: Radius
+                                                                  .circular(16),
+                                                              bottom:
+                                                                  Radius.zero),
+                                                      child: FadeInImage
+                                                          .assetNetwork(
+                                                        placeholder:
+                                                            'assets/placeholder.png',
+                                                        image: flashDealproductlist[
+                                                                index]
+                                                            ['thumbnail_image'],
+                                                        fit: BoxFit.fill,
+                                                      ))),
+                                              Padding(
+                                                padding: EdgeInsets.fromLTRB(
+                                                    8, 0, 8, 0),
+                                                child: Text(
+                                                  flashDealproductlist[index]
+                                                      ['name'],
+                                                  // widget.name,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  maxLines: 2,
+                                                  style: TextStyle(
+                                                      color: MyTheme.font_grey,
+                                                      fontSize: 11,
+                                                      height: 1.2,
+                                                      fontWeight:
+                                                          FontWeight.w400),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.fromLTRB(
+                                                    8, 0, 8, 0),
+                                                child: Text(
+                                                  flashDealproductlist[index]
+                                                          ['main_price']
+                                                      .toString(),
+                                                  //widget.main_price,
+                                                  textAlign: TextAlign.left,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  maxLines: 1,
+                                                  style: TextStyle(
+                                                      color:
+                                                          MyTheme.accent_color,
+                                                      fontSize: 11,
+                                                      fontWeight:
+                                                          FontWeight.w600),
+                                                ),
+                                              ),
+                                              flashDealproductlist[index]
+                                                      ['has_discount']
+                                                  ? Padding(
+                                                      padding:
+                                                          EdgeInsets.fromLTRB(
+                                                              8, 0, 8, 0),
+                                                      child: Text(
+                                                        flashDealproductlist[
+                                                                    index][
+                                                                'stroked_price']
+                                                            .toString(),
+                                                        textAlign:
+                                                            TextAlign.left,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        maxLines: 1,
+                                                        style: TextStyle(
+                                                            decoration:
+                                                                TextDecoration
+                                                                    .lineThrough,
+                                                            color: MyTheme
+                                                                .medium_grey,
+                                                            fontSize: 9,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w600),
+                                                      ),
+                                                    )
+                                                  : Container(),
+                                            ]),
+                                      ),
+                                    );
+
+                                    //  MiniProductCard(
+                                    //   id:flashDealproductlist[index]['id'] ,
+                                    //  image:flashDealproductlist[index]['thumbnail_image']
+                                    //  //'https://www.tamampk.com/'+'${flashDealproductlist[index]['']}',
+                                    // );
+                                  })),
+                        ),
+                      ),
+
+                      SliverList(
                           delegate: SliverChildListDelegate([
                         Padding(
                           padding: const EdgeInsets.fromLTRB(
                             6.0,
                             16.0,
-                            8.0,
-                            0.0,
-                          ),
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Text(
-                                        'Flash Deal',
-                                        // AppLocalizations.of(context)
-                                        //     .home_screen_featured_products,
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w600),
-                                      ),
-                                      SizedBox(
-                                        width: 4,
-                                      ),
-                                      Row(
-                                        children: [
-                                          Container(
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(4),
-                                                color: Colors.black),
-                                            height: 20,
-                                            width: 24,
-                                            child: Center(
-                                              child: Text(
-                                                '10',
-                                                // AppLocalizations.of(context).home_screen_featured_categories,
-                                                style: TextStyle(
-                                                    fontSize: 16,
-                                                    color: Colors.white),
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                              width: 18,
-                                              child: Text(
-                                                (':'),
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                    fontSize: 26,
-                                                    color: Colors.black),
-                                              )),
-                                          SizedBox(
-                                            width: 2,
-                                          ),
-                                          Container(
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(4),
-                                                color: Colors.black),
-                                            height: 20,
-                                            width: 24,
-                                            child: Center(
-                                              child: Text(
-                                                '04',
-                                                // AppLocalizations.of(context).home_screen_featured_categories,
-                                                style: TextStyle(
-                                                    fontSize: 16,
-                                                    color: Colors.white),
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                              width: 18,
-                                              child: Text(
-                                                (':'),
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                    fontSize: 26,
-                                                    color: Colors.black),
-                                              )),
-                                          Container(
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(4),
-                                                color: Colors.black),
-                                            height: 20,
-                                            width: 24,
-                                            child: Center(
-                                              child: Text(
-                                                '17',
-                                                // AppLocalizations.of(context).home_screen_featured_categories,
-                                                style: TextStyle(
-                                                    fontSize: 16,
-                                                    color: Colors.white),
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                              width: 18,
-                                              child: Text(
-                                                (':'),
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                    fontSize: 26,
-                                                    color: Colors.black),
-                                              )),
-                                          Container(
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(4),
-                                                color: Colors.black),
-                                            height: 20,
-                                            width: 24,
-                                            child: Center(
-                                              child: Text(
-                                                '00',
-                                                // AppLocalizations.of(context).home_screen_featured_categories,
-                                                style: TextStyle(
-                                                    fontSize: 16,
-                                                    color: Colors.white),
-                                              ),
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      GestureDetector(
-                                        onTap: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      FlashDealList()));
-                                        },
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            Navigator.push(context,
-                                                MaterialPageRoute(
-                                                    builder: (context) {
-                                              return TodaysDealProducts();
-                                            }));
-                                          },
-                                          child: Text(
-                                            'SHOP MORE',
-                                            style: TextStyle(
-                                                fontSize: 12,
-                                                color: MyTheme.Grey_third),
-                                          ),
-                                        ),
-                                      ),
-                                      Icon(
-                                        Icons.arrow_forward_ios,
-                                        size: 12,
-                                      )
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(
-                            6.0,
-                            16.0,
                             6.0,
                             0.0,
                           ),
@@ -682,34 +726,28 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                             children: [
                               Row(
                                 children: [
-                                  Container(
-                                    decoration: BoxDecoration(
-                                        color: Colors.brown,
-                                        borderRadius: BorderRadius.circular(4)),
-                                    height: 150,
-                                    width: 170,
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(4),
-                                      child: Image.network(
-                                        'https://tamampk.com/public/assets/img/app/shape-banenr-7.png',
-                                        fit: BoxFit.fill,
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Expanded(
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(context,
+                                          MaterialPageRoute(builder: (context) {
+                                        return CategoryProducts(
+                                          category_id: 4,
+                                          category_name: "Women's Fashion",
+                                          //"Kid's Fashion",
+                                        );
+                                      }));
+                                    },
                                     child: Container(
                                       decoration: BoxDecoration(
-                                          color: Colors.black,
+                                          color: Colors.brown,
                                           borderRadius:
                                               BorderRadius.circular(4)),
                                       height: 150,
+                                      width: 170,
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.circular(4),
                                         child: Image.network(
-                                          'https://tamampk.com/public/assets/img/app/denim-banner-8.png',
+                                          'https://tamampk.com/public/assets/img/app/shape-banenr-7.png',
                                           fit: BoxFit.fill,
                                         ),
                                       ),
@@ -719,8 +757,19 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                     width: 10,
                                   ),
                                   Expanded(
-                                    flex: 1,
-                                    child: Container(
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(context,
+                                            MaterialPageRoute(
+                                                builder: (context) {
+                                          return CategoryProducts(
+                                              category_id: 9,
+                                              category_name: "Health & Fitness"
+                                              //"Kid's Fashion",
+                                              );
+                                        }));
+                                      },
+                                      child: Container(
                                         decoration: BoxDecoration(
                                             color: Colors.black,
                                             borderRadius:
@@ -730,139 +779,253 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                           borderRadius:
                                               BorderRadius.circular(4),
                                           child: Image.network(
-                                            'https://tamampk.com/public/assets/img/app/gadget-banner-4.png',
+                                            'https://tamampk.com/public/assets/img/app/denim-banner-8.png',
                                             fit: BoxFit.fill,
                                           ),
-                                        )),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Row(
-                                children: [
-                                  Container(
-                                      height: 120,
-                                      width: 240,
-                                      decoration: BoxDecoration(
-                                          color: Colors.brown,
-                                          borderRadius:
-                                              BorderRadius.circular(4)),
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(4),
-                                        child: Image.network(
-                                          'https://tamampk.com/public/assets/img/app/enjoy-banner-2.gif',
-                                          fit: BoxFit.fill,
                                         ),
-                                      )),
+                                      ),
+                                    ),
+                                  ),
                                   SizedBox(
                                     width: 10,
                                   ),
                                   Expanded(
-                                    child: Container(
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(4)),
-                                        height: 120,
-                                        //width: 240,
-
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(4),
-                                          child: Image.network(
-                                            'https://tamampk.com/public/assets/img/app/woman-fashion-1.png',
-                                            fit: BoxFit.fill,
-                                          ),
-                                        )),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Row(
-                                children: [
-                                  Container(
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(4)),
-                                      height: 120,
-                                      width: 240,
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(4),
-                                        child: Image.network(
-                                          'https://tamampk.com/public/assets/img/app/man-fashion-3.png',
-                                          fit: BoxFit.fill,
-                                        ),
-                                      )),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(4)),
-                                        height: 120,
-                                        //width: 220,
-
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(4),
-                                          child: Image.network(
-                                            'https://tamampk.com/public/assets/img/app/eletric-banner-5.png',
-                                            fit: BoxFit.fill,
-                                          ),
-                                        )),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Row(
-                                children: [
-                                  Container(
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(4)),
-                                      height: 120,
-                                      width: 240,
-                                      child: Column(
-                                        children: [
-                                          Expanded(
-                                            child: ClipRRect(
+                                    flex: 1,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(context,
+                                            MaterialPageRoute(
+                                                builder: (context) {
+                                          return CategoryProducts(
+                                              category_id: 10,
+                                              category_name: "Sports & Outdoors"
+                                              //"Kid's Fashion",
+                                              );
+                                        }));
+                                      },
+                                      child: Container(
+                                          decoration: BoxDecoration(
+                                              color: Colors.black,
                                               borderRadius:
-                                                  BorderRadius.circular(4),
-                                              child: Image.network(
-                                                'https://tamampk.com/public/assets/img/app/winter_banner_9.png',
-                                                fit: BoxFit.fill,
-                                                width: double.infinity,
+                                                  BorderRadius.circular(4)),
+                                          height: 150,
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(4),
+                                            child: Image.network(
+                                              'https://tamampk.com/public/assets/img/app/gadget-banner-4.png',
+                                              fit: BoxFit.fill,
+                                            ),
+                                          )),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(context,
+                                          MaterialPageRoute(builder: (context) {
+                                        return CategoryProducts(
+                                          category_id: 12,
+                                          category_name: "Home & Lifestyle",
+                                          //"Kid's Fashion",
+                                        );
+                                      }));
+                                    },
+                                    child: Container(
+                                        height: 120,
+                                        width: 240,
+                                        decoration: BoxDecoration(
+                                            color: Colors.brown,
+                                            borderRadius:
+                                                BorderRadius.circular(4)),
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(4),
+                                          child: Image.network(
+                                            'https://tamampk.com/public/assets/img/app/enjoy-banner-2.gif',
+                                            fit: BoxFit.fill,
+                                          ),
+                                        )),
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Expanded(
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(context,
+                                            MaterialPageRoute(
+                                                builder: (context) {
+                                          return CategoryProducts(
+                                            category_id: 18,
+                                            category_name: "Wedding",
+                                            //"Kid's Fashion",
+                                          );
+                                        }));
+                                      },
+                                      child: Container(
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(4)),
+                                          height: 120,
+                                          //width: 240,
+
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(4),
+                                            child: Image.network(
+                                              'https://tamampk.com/public/assets/img/app/woman-fashion-1.png',
+                                              fit: BoxFit.fill,
+                                            ),
+                                          )),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(context,
+                                          MaterialPageRoute(builder: (context) {
+                                        return CategoryProducts(
+                                          category_id: 5,
+                                          category_name: "Men's Fashion",
+                                          //"Kid's Fashion",
+                                        );
+                                      }));
+                                    },
+                                    child: Container(
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(4)),
+                                        height: 120,
+                                        width: 240,
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(4),
+                                          child: Image.network(
+                                            'https://tamampk.com/public/assets/img/app/man-fashion-3.png',
+                                            fit: BoxFit.fill,
+                                          ),
+                                        )),
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Expanded(
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(context,
+                                            MaterialPageRoute(
+                                                builder: (context) {
+                                          return CategoryProducts(
+                                            category_id: 60,
+                                            category_name:
+                                                "Computer & Accessories",
+                                            //"Kid's Fashion",
+                                          );
+                                        }));
+                                      },
+                                      child: Container(
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(4)),
+                                          height: 120,
+                                          //width: 220,
+
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(4),
+                                            child: Image.network(
+                                              'https://tamampk.com/public/assets/img/app/eletric-banner-5.png',
+                                              fit: BoxFit.fill,
+                                            ),
+                                          )),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(context,
+                                          MaterialPageRoute(builder: (context) {
+                                        return CategoryProducts(
+                                          category_id: 339,
+                                          category_name:
+                                              "Pakistani Traditional",
+                                          //"Kid's Fashion",
+                                        );
+                                      }));
+                                    },
+                                    child: Container(
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(4)),
+                                        height: 120,
+                                        width: 240,
+                                        child: Column(
+                                          children: [
+                                            Expanded(
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(4),
+                                                child: Image.network(
+                                                  'https://tamampk.com/public/assets/img/app/winter_banner_9.png',
+                                                  fit: BoxFit.fill,
+                                                  width: double.infinity,
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                        ],
-                                      )),
+                                          ],
+                                        )),
+                                  ),
                                   SizedBox(
                                     width: 10,
                                   ),
                                   Expanded(
-                                    child: Container(
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(4)),
-                                        height: 120,
-                                        //width: 220,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(context,
+                                            MaterialPageRoute(
+                                                builder: (context) {
+                                          return CategoryProducts(
+                                            category_id: 7,
+                                            category_name: "babies & toys",
+                                            //"Kid's Fashion",
+                                          );
+                                        }));
+                                      },
+                                      child: Container(
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(4)),
+                                          height: 120,
+                                          //width: 220,
 
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(4),
-                                          child: Image.network(
-                                            'https://tamampk.com/public/assets/img/app/baby-banner-6.png',
-                                            fit: BoxFit.fill,
-                                          ),
-                                        )),
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(4),
+                                            child: Image.network(
+                                              'https://tamampk.com/public/assets/img/app/baby-banner-6.png',
+                                              fit: BoxFit.fill,
+                                            ),
+                                          )),
+                                    ),
                                   ),
                                 ],
                               )
@@ -879,7 +1042,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                       //         0.0,
                       //         0.0,
                       //       ),
-                      //       child: buildFlashDealList(context)),
+                      //       child: FlashDealProducts()),
                       // ),
 
                       SliverList(
@@ -891,7 +1054,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.fromLTRB(
-                                    6.0,
+                                    10.0,
                                     16.0,
                                     6.0,
                                     0.0,
@@ -945,7 +1108,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                 Padding(
                                   padding: const EdgeInsets.fromLTRB(
                                     0.0,
-                                    0.0,
+                                    10.0,
                                     8.0,
                                     0.0,
                                   ),
@@ -969,7 +1132,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                           Padding(
                                             padding: const EdgeInsets.fromLTRB(
                                               0.0,
-                                              0.0,
+                                              10.0,
                                               0.0,
                                               0.0,
                                             ),
@@ -990,17 +1153,22 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                                           builder: (context) =>
                                                               TodaysDealProducts()));
                                                 },
-                                                child: Text(
-                                                  'SHOP MORE',
-                                                  style: TextStyle(
-                                                      fontSize: 12,
-                                                      color:
-                                                          MyTheme.Grey_third),
+                                                child: Container(
+                                                  padding:EdgeInsets.only(top:10),
+                                                  child: Text(
+                                                    'SHOP MORE',
+                                                    style: TextStyle(
+                                                        fontSize: 12,
+                                                        color:
+                                                            MyTheme.Grey_third),
+                                                  ),
                                                 ),
                                               ),
-                                              Icon(
-                                                Icons.arrow_forward_ios,
-                                                size: 12,
+                                              Container(     padding:EdgeInsets.only(top:10),
+                                                child: Icon(
+                                                  Icons.arrow_forward_ios,
+                                                  size: 12,
+                                                ),
                                               )
                                             ],
                                           ),
@@ -1115,15 +1283,6 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
               return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 3),
                   child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                          return CategoryProducts(
-                            category_id: _featuredCategoryList[index].id,
-                            category_name: _featuredCategoryList[index].name,
-                          );
-                        }));
-                      },
                       child: Card(
                           clipBehavior: Clip.antiAliasWithSaveLayer,
                           shape: RoundedRectangleBorder(
@@ -1142,15 +1301,32 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                         borderRadius: BorderRadius.vertical(
                                             top: Radius.circular(16),
                                             bottom: Radius.zero),
-                                        child: FadeInImage.assetNetwork(
-                                          placeholder: 'assets/placeholder.png',
-                                          image: _featuredCategoryList2
-                                                      .length !=
-                                                  0
-                                              ? _featuredCategoryList2[index]
-                                                  .banner
-                                              : null,
-                                          fit: BoxFit.cover,
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(context,
+                                                MaterialPageRoute(
+                                                    builder: (context) {
+                                              return CategoryProducts(
+                                                category_id:
+                                                    _featuredCategoryList[index]
+                                                        .id,
+                                                category_name:
+                                                    _featuredCategoryList[index]
+                                                        .name,
+                                              );
+                                            }));
+                                          },
+                                          child: FadeInImage.assetNetwork(
+                                            placeholder:
+                                                'assets/placeholder.png',
+                                            image: _featuredCategoryList2
+                                                        .length !=
+                                                    0
+                                                ? _featuredCategoryList2[index]
+                                                    .banner
+                                                : null,
+                                            fit: BoxFit.fill,
+                                          ),
                                         ))),
                                 Padding(
                                   padding: EdgeInsets.fromLTRB(8, 8, 8, 4),
@@ -1189,6 +1365,20 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         height: 100,
       );
     }
+  }
+
+  buildFlashProduct(contex) {
+    ListView.builder(
+        itemCount: flashDealproductlist.length,
+        scrollDirection: Axis.horizontal,
+        shrinkWrap: true,
+        itemExtent: 120,
+        physics: NeverScrollableScrollPhysics(),
+        itemBuilder: (context, index) {
+          return Container(
+            child: Text(flashDealproductlist[index]['id'].toString()),
+          );
+        });
   }
 
   buildHomeFeaturedCategories2(context) {
@@ -1259,7 +1449,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                               image:
                                                   _featuredCategoryList[index]
                                                       .banner,
-                                              fit: BoxFit.cover,
+                                              fit: BoxFit.fill,
                                             ))),
                                     Padding(
                                       padding: EdgeInsets.fromLTRB(8, 8, 8, 4),
@@ -1293,7 +1483,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                               image:
                                                   _featuredCategoryList2[index]
                                                       .banner,
-                                              fit: BoxFit.cover,
+                                              fit: BoxFit.fill,
                                             ))),
                                     Padding(
                                       padding: EdgeInsets.fromLTRB(8, 8, 8, 4),
@@ -1745,93 +1935,18 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       child: FutureBuilder(
           future: FlashDealRepository().getFlashDeals(),
           builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              //snapshot.hasError
-              //print("flashDeal error");
-              //print(snapshot.error.toString());
-              return Container();
-            } else if (snapshot.hasData) {
-              //snapshot.hasData
-              var flashDealResponse = snapshot.data;
-              return SingleChildScrollView(
-                child: ListView.builder(
-                  itemCount: flashDealResponse.flash_deals.length,
-                  scrollDirection: Axis.vertical,
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                        padding: const EdgeInsets.only(
-                          top: 0.0,
-                          left: 6.0,
-                          right: 6.0,
-                        ),
-                        child: Container(
-                          height: 164,
-                          //  color: Colors.black,
-                          child:
-                              buildFlashDealListItem(flashDealResponse, index),
-                        ));
-                  },
-                ),
-              );
-            } else {
-              return SingleChildScrollView(
-                child: ListView.builder(
-                  itemCount: 10,
-                  scrollDirection: Axis.vertical,
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(
-                        top: 0.0,
-                        left: 16.0,
-                        right: 16.0,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Shimmer.fromColors(
-                            baseColor: MyTheme.shimmer_base,
-                            highlightColor: MyTheme.shimmer_highlighted,
-                            child: Container(
-                              // height: 120,
-                              width: double.infinity,
-                              color: Colors.black,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
-                            child: Shimmer.fromColors(
-                              baseColor: MyTheme.shimmer_base,
-                              highlightColor: MyTheme.shimmer_highlighted,
-                              child: Container(
-                                // height: 30,
-                                width: 80,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
-                            child: Shimmer.fromColors(
-                              baseColor: MyTheme.shimmer_base,
-                              highlightColor: MyTheme.shimmer_highlighted,
-                              child: Container(
-                                //  height: 30,
-                                width: 100,
-                                color: Colors.amber,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              );
-            }
+            //snapshot.hasData
+            var flashDealResponse = snapshot.data;
+            return Container(
+              padding: EdgeInsets.only(top: 5),
+              //  height: 164,
+              //  color: Colors.black,
+              child: flashDealResponse != null
+                  ? buildFlashDealListItem(
+                      flashDealResponse,
+                    )
+                  : Container(),
+            );
           }),
     );
   }
@@ -1864,9 +1979,11 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     return newtxt;
   }
 
-  buildFlashDealListItem(flashDealResponse, index) {
+  buildFlashDealListItem(
+    flashDealResponse,
+  ) {
     DateTime end = convertTimeStampToDateTime(
-        flashDealResponse.flash_deals[index].date); // YYYY-mm-dd
+        flashDealResponse.flash_deals[0].date); // YYYY-mm-dd
     DateTime now = DateTime.now();
     int diff = end.difference(now).inMilliseconds;
     int endTime = diff + now.millisecondsSinceEpoch;
@@ -1880,7 +1997,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
       child: CountdownTimer(
-        controller: _timerControllerList[index],
+        controller: _timerControllerList[0],
         widgetBuilder: (_, CurrentRemainingTime time) {
           return GestureDetector(
             onTap: () {
@@ -1894,8 +2011,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
               } else {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
                   return FlashDealProducts(
-                    flash_deal_id: flashDealResponse.flash_deals[index].id,
-                    flash_deal_name: flashDealResponse.flash_deals[index].title,
+                    flash_deal_id: flashDealResponse.flash_deals[0].id,
+                    // flash_deal_name: flashDealResponse.flash_deals[index].title,
                   );
                 }));
               }
@@ -1905,36 +2022,36 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Card(
-                    shape: RoundedRectangleBorder(
-                      side:
-                          new BorderSide(color: MyTheme.light_grey, width: 1.0),
-                      borderRadius: BorderRadius.circular(16.0),
-                    ),
-                    elevation: 0.0,
-                    child: Container(
-                        width: double.infinity,
-                        height: 100,
-                        child: ClipRRect(
-                            borderRadius: BorderRadius.circular(16.0),
-                            child: FadeInImage.assetNetwork(
-                              placeholder: 'assets/placeholder_rectangle.png',
-                              image:
-                                  flashDealResponse.flash_deals[index].banner,
-                              fit: BoxFit.fill,
-                            ))),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 8.0),
-                    child: Text(
-                      flashDealResponse.flash_deals[index].title,
-                      maxLines: 1,
-                      style: TextStyle(
-                          color: MyTheme.dark_grey,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600),
-                    ),
-                  ),
+                  // Card(
+                  //   shape: RoundedRectangleBorder(
+                  //     side:
+                  //         new BorderSide(color: MyTheme.light_grey, width: 1.0),
+                  //     borderRadius: BorderRadius.circular(16.0),
+                  //   ),
+                  //   elevation: 0.0,
+                  //   child: Container(
+                  //       width: double.infinity,
+                  //       height: 100,
+                  //       child: ClipRRect(
+                  //           borderRadius: BorderRadius.circular(16.0),
+                  //           child: FadeInImage.assetNetwork(
+                  //             placeholder: 'assets/placeholder_rectangle.png',
+                  //             image:
+                  //                 flashDealResponse.flash_deals[index].banner,
+                  //             fit: BoxFit.fill,
+                  //           ))),
+                  // ),
+                  // Padding(
+                  //   padding: const EdgeInsets.only(bottom: 8.0),
+                  //   child: Text(
+                  //     flashDealResponse.flash_deals[index].title,
+                  //     maxLines: 1,
+                  //     style: TextStyle(
+                  //         color: MyTheme.dark_grey,
+                  //         fontSize: 16,
+                  //         fontWeight: FontWeight.w600),
+                  //   ),
+                  // ),
                   Container(
                     height: 20,
                     width: 140,
@@ -1961,17 +2078,24 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 
   buildTimerRowRow(CurrentRemainingTime time) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        Text(
-          timeText(time.days.toString(), default_length: 3),
-          style: TextStyle(
-              color: MyTheme.accent_color,
-              fontSize: 16.0,
-              fontWeight: FontWeight.w600),
+        Container(
+          decoration: BoxDecoration(
+              color: Colors.black, borderRadius: BorderRadius.circular(2)),
+          padding: EdgeInsets.all(2),
+          child: Center(
+            child: Text(
+              timeText(time.days.toString(), default_length: 2),
+              style: TextStyle(
+                  color: MyTheme.white,
+                  fontSize: 14.0,
+                  fontWeight: FontWeight.w600),
+            ),
+          ),
         ),
         Padding(
-          padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+          padding: const EdgeInsets.only(left: 2.0, right: 2.0),
           child: Text(
             ":",
             style: TextStyle(
@@ -1980,15 +2104,20 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                 fontWeight: FontWeight.w600),
           ),
         ),
-        Text(
-          timeText(time.hours.toString(), default_length: 2),
-          style: TextStyle(
-              color: MyTheme.accent_color,
-              fontSize: 16.0,
-              fontWeight: FontWeight.w600),
+        Container(
+          decoration: BoxDecoration(
+              color: Colors.black, borderRadius: BorderRadius.circular(2)),
+          padding: EdgeInsets.all(2),
+          child: Text(
+            timeText(time.hours.toString(), default_length: 2),
+            style: TextStyle(
+                color: MyTheme.white,
+                fontSize: 14.0,
+                fontWeight: FontWeight.w600),
+          ),
         ),
         Padding(
-          padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+          padding: const EdgeInsets.only(left: 2.0, right: 2.0),
           child: Text(
             ":",
             style: TextStyle(
@@ -1997,15 +2126,20 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                 fontWeight: FontWeight.w600),
           ),
         ),
-        Text(
-          timeText(time.min.toString(), default_length: 2),
-          style: TextStyle(
-              color: MyTheme.accent_color,
-              fontSize: 16.0,
-              fontWeight: FontWeight.w600),
+        Container(
+          decoration: BoxDecoration(
+              color: Colors.black, borderRadius: BorderRadius.circular(2)),
+          padding: EdgeInsets.all(2),
+          child: Text(
+            timeText(time.min.toString(), default_length: 2),
+            style: TextStyle(
+                color: MyTheme.white,
+                fontSize: 14.0,
+                fontWeight: FontWeight.w600),
+          ),
         ),
         Padding(
-          padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+          padding: const EdgeInsets.only(left: 2.0, right: 2.0),
           child: Text(
             ":",
             style: TextStyle(
@@ -2014,12 +2148,17 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                 fontWeight: FontWeight.w600),
           ),
         ),
-        Text(
-          timeText(time.sec.toString(), default_length: 2),
-          style: TextStyle(
-              color: MyTheme.accent_color,
-              fontSize: 16.0,
-              fontWeight: FontWeight.w600),
+        Container(
+          decoration: BoxDecoration(
+              color: Colors.black, borderRadius: BorderRadius.circular(2)),
+          padding: EdgeInsets.all(2),
+          child: Text(
+            timeText(time.sec.toString(), default_length: 2),
+            style: TextStyle(
+                color: MyTheme.white,
+                fontSize: 14.0,
+                fontWeight: FontWeight.w600),
+          ),
         ),
       ],
     );
@@ -2070,5 +2209,22 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                 );
           }
         });
+  }
+
+  Future flashDealData() async {
+    try {
+      var url = 'https://www.tamampk.com/api/v2/flash-deal-products/3';
+      http.Response response = await http.get(Uri.parse(url));
+      var data = jsonDecode(response.body)['data'];
+      //  final json = jsonDecode(response.body);
+
+      print('Subeeeeeeee $data');
+      setState(() {
+        flashDealproductlist = data;
+      });
+      return data;
+    } catch (err) {
+      print(err.toString());
+    }
   }
 }
